@@ -180,7 +180,8 @@
         <div class="uk-modal-header">
             <h2 class="uk-modal-title">{{.title}}</h2>
         </div>
-        <p>{{.description | safeHTML}}</p>
+        {{ $content := .description | safeHTML }}
+        <p>{{ replace $content ">+" "<br>" | markdownify }}</p>
     </div>
 </div>
 {{ end }}
