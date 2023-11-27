@@ -42,12 +42,17 @@ a {
   margin-bottom: 40px;
 }
 
-figcaption p {
+figcaption {
   font-size: 0.8em;
   color: grey;
+  font-style: italic;
+  text-align: center;
 }
-
-figure img {
+.date {
+  font-size: 1.2em;
+  font-style: normal;
+}
+picture img {
   border: solid thin black;
   padding: 10px;
 }
