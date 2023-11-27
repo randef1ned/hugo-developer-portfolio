@@ -3,6 +3,26 @@
   object-fit: contain;
 }
 
+html {
+  height: 100vh;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  line-height: 1.65;
+  color: #505050;
+}
+
+.footer {
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+p, .uk-form-label, table, li {
+  font-size: 1.15em;
+}
 .uk-button-text {
   border-bottom: 1px solid #333;
 }
@@ -43,15 +63,19 @@ a {
 }
 
 figcaption {
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: grey;
+  margin-top: -1.5em;
   font-style: italic;
   text-align: center;
 }
+
 .date {
   font-size: 1.2em;
+  margin-top: 0.5em;
   font-style: normal;
 }
+
 picture img {
   border: solid thin black;
   padding: 10px;
@@ -60,6 +84,7 @@ picture img {
 em {
   color: unset;
 }
+
 img.experience {
   width: 150px;
   height: 180px;
