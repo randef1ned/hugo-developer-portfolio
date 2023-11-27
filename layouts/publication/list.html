@@ -13,14 +13,27 @@
           <div class="uk-container">
             <div class="uk-flex-center" uk-grid uk-height-match=".publication">
               <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <figure>
+                <picture>
                   {{ if .image }}
-                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" alt="Graphical abstract">
+                    {{ $image_ext := (path.Ext .image) }}
+                    {{ $is_jpg := eq $image_ext ".jpg" }}
+                    {{ $is_png := eq $image_ext ".png" }}
+                    {{ $ext := replace $image_ext "." "" 1 }}
+                    {{ if or ($is_jpg) ($is_png) }}
+                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                      {{ if $is_jpg }}
+                        <source srcset="{{ $avif | absURL }}" type="image/avif" />
+                      {{ end }}
+                      <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                      <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+                    {{ end }}
+                    <img class="contain publications medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
                   {{ end }}
                   {{ if .date }}
-                    <figcaption>{{ .date }}</figcaption>
+                    <figcaption class="date">{{ .date }}</figcaption>
                   {{ end }}
-                </figure>
+                </picture>
               </div>
               <div class="uk-width-expand@m publication">
                 <h3 class="uk-text-bold">{{.title}}</h3>
@@ -108,14 +121,27 @@
           <div class="uk-container">
             <div class="uk-flex-center" uk-grid uk-height-match=".publication">
               <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <figure>
+                <picture>
                   {{ if .image }}
-                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" alt="Photo">
+                    {{ $image_ext := (path.Ext .image) }}
+                    {{ $is_jpg := eq $image_ext ".jpg" }}
+                    {{ $is_png := eq $image_ext ".png" }}
+                    {{ $ext := replace $image_ext "." "" 1 }}
+                    {{ if or ($is_jpg) ($is_png) }}
+                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                      {{ if $is_jpg }}
+                        <source srcset="{{ $avif | safeURL }}" type="image/avif" />
+                      {{ end }}
+                      <source srcset="{{ $webp | safeURL }}" type="image/webp" />
+                      <source srcset="{{ .image | safeURL }}" type="image/{{ $ext }}" />
+                    {{ end }}
+                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" loading="lazy" decoding="async">
                   {{ end }}
                   {{ if .date }}
-                    <figcaption>{{ .date }}</figcaption>
+                    <figcaption class="date">{{ .date }}</figcaption>
                   {{ end }}
-                </figure>
+                </picture>
               </div>
               <div class="uk-width-expand@m publication">
                 <h3 class="uk-text-bold">{{.title}}</h3>
@@ -191,14 +217,27 @@
           <div class="uk-container">
             <div class="uk-flex-center" uk-grid uk-height-match=".publication">
               <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <figure>
+                <picture>
                   {{ if .image }}
-                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" alt="Cover">
+                    {{ $image_ext := (path.Ext .image) }}
+                    {{ $is_jpg := eq $image_ext ".jpg" }}
+                    {{ $is_png := eq $image_ext ".png" }}
+                    {{ $ext := replace $image_ext "." "" 1 }}
+                    {{ if or ($is_jpg) ($is_png) }}
+                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                      {{ if $is_jpg }}
+                        <source srcset="{{ $avif | safeURL }}" type="image/avif" />
+                      {{ end }}
+                      <source srcset="{{ $webp | safeURL }}" type="image/webp" />
+                      <source srcset="{{ .image | safeURL }}" type="image/{{ $ext }}" />
+                    {{ end }}
+                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" loading="lazy" decoding="async">
                   {{ end }}
                   {{ if .date }}
-                    <figcaption>{{ .date }}</figcaption>
+                    <figcaption class="date">{{ .date }}</figcaption>
                   {{ end }}
-                </figure>
+                </picture>
               </div>
               <div class="uk-width-expand@m publication">
                 <h3 class="uk-text-bold">
