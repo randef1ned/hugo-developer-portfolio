@@ -27,6 +27,10 @@ theme = "."
   [[params.plugins.js]]
   URL = "/js/medium-zoom-1.0.8.min.js"
 
+# Recaptcha
+[params.recaptcha]
+  enabled = false
+  site_id = ""
 
 # navigation
 [menu]

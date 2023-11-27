@@ -4,8 +4,9 @@
 
 <section>
   <div class="uk-container">
-    <form class="uk-form-horizontal uk-margin-large" action="{{.Site.Params.contact.formAction}}" method="post">
-
+    {{ .Content }}
+    <form class="uk-form-horizontal uk-margin-large" id="contact" action="{{.Site.Params.contact.formAction}}" method="post">
+      <div class="uk-margin warning"></div>
       <div class="uk-margin">
         <label class="uk-form-label" for="name">Name</label>
         <div class="uk-form-controls">
@@ -25,13 +26,67 @@
           <textarea class="uk-textarea" name="message" id="message" rows="5" placeholder="Your message here" required="required"></textarea>
         </div>
       </div>
-
+      <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
       <button class="uk-align-center uk-button uk-button-default">Submit</button>
-
     </form>
 
   </div>
-
+  {{ if .Site.Params.recaptcha.enabled }}
+    {{ $site_id := .Site.Params.recaptcha.site_id }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ $site_id }}"></script>
+    <script>
+      grecaptcha.ready(function () {
+        grecaptcha.execute('{{ $site_id }}', {action: 'submit'}).then(function (token) {
+          // console.info("got token: " + token);
+          document.getElementById('g-recaptcha-response').value = token;
+        });
+      });
+      
+      var name_input = document.getElementById("name");
+      var email_input = document.getElementById("email");
+      var message_input = document.getElementById("message");
+      
+      function save_data() {
+        localStorage['contact_name'] = name_input.value;
+        localStorage['contact_email'] = email_input.value;
+        localStorage['message'] = message_input.value;
+      };
+  
+      function load_data() {
+        if (localStorage['contact_name'])
+          name_input.value = localStorage['contact_name'];
+        if (localStorage['contact_email'])
+          email_input.value = localStorage['contact_email'];
+        if (localStorage['message'])
+          message_input.value = localStorage['message'];
+      }
+      
+      function supports_html5_storage(){
+        try {
+          return 'localStorage' in window && window['localStorage'] !== null;
+        } catch(e) {
+          return false;
+        }
+      }
+  
+      if (supports_html5_storage()) {
+        name_input.addEventListener('change', save_data);
+        email_input.addEventListener('change', save_data);
+        message_input.addEventListener('change', save_data);
+        window.addEventListener('DOMContentLoaded', load_data);
+      } else {
+        var warning_node = document.getElementsByClassName('warning');
+        var warning_message = 'CAUTION: Your browser does not support auto save!!';
+        if (warning_node.length) {
+          warning_node[0].appendChild(document.createTextNode(warning_message))
+          warning_node[0].className += ' uk-alert-primary uk-alert-danger';
+        }
+        window.alert(warning_message);
+      }
+    </script>
+  {{ end }}
+  
 </section>
 
 
