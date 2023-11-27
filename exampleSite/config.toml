@@ -24,6 +24,8 @@ theme = "."
   URL = "https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"
   [[params.plugins.js]]
   URL = "https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit-icons.min.js"
+  [[params.plugins.js]]
+  URL = "/js/medium-zoom-1.0.8.min.js"
 
 
 # navigation
