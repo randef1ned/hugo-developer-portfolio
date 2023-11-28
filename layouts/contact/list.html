@@ -6,7 +6,10 @@
   <div class="uk-container">
     {{ .Content }}
     <form class="uk-form-horizontal uk-margin-large" id="contact" action="{{.Site.Params.contact.formAction}}" method="post">
-      <div class="uk-margin warning"></div>
+      <div class="uk-alert warning" uk-alert="">
+        <a href class="uk-alert-close" uk-close></a>
+      </div>
+      
       <div class="uk-margin">
         <label class="uk-form-label" for="name">Name</label>
         <div class="uk-form-controls">
@@ -23,11 +26,11 @@
       <div class="uk-margin">
         <label class="uk-form-label" for="message">Message</label>
         <div class="uk-form-controls">
-          <textarea class="uk-textarea" name="message" id="message" rows="5" placeholder="Your message here" required="required"></textarea>
+          <textarea class="uk-textarea" name="message" id="message" rows="5" placeholder="Your message here." required="required" disabled></textarea>
         </div>
       </div>
       <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-      <button class="uk-align-center uk-button uk-button-default">Submit</button>
+      <button class="uk-align-center uk-button uk-button-primary" id="submit" disabled>Wait until captcha loaded</button>
     </form>
 
   </div>
@@ -35,11 +38,13 @@
     {{ $site_id := .Site.Params.recaptcha.site_id }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render={{ $site_id }}"></script>
-    <script>
+    <script async>
       grecaptcha.ready(function () {
         grecaptcha.execute('{{ $site_id }}', {action: 'submit'}).then(function (token) {
-          // console.info("got token: " + token);
           document.getElementById('g-recaptcha-response').value = token;
+          document.getElementById('submit').textContent = 'Submit';
+          document.getElementById('submit').disabled = false;
+          document.getElementById('message').disabled = false;
         });
       });
       
@@ -69,18 +74,20 @@
           return false;
         }
       }
-  
+      
+      var warning_node = document.getElementsByClassName('warning');
+          warning_node[0].className += ' uk-alert-success';
       if (supports_html5_storage()) {
         name_input.addEventListener('change', save_data);
         email_input.addEventListener('change', save_data);
         message_input.addEventListener('change', save_data);
         window.addEventListener('DOMContentLoaded', load_data);
+        warning_node[0].appendChild(document.createTextNode('Your browser does support auto save.'))
       } else {
-        var warning_node = document.getElementsByClassName('warning');
         var warning_message = 'CAUTION: Your browser does not support auto save!!';
         if (warning_node.length) {
           warning_node[0].appendChild(document.createTextNode(warning_message))
-          warning_node[0].className += ' uk-alert-primary uk-alert-danger';
+          warning_node[0].className += ' uk-alert-danger';
         }
         window.alert(warning_message);
       }
