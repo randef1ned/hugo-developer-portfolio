@@ -17,13 +17,13 @@ theme = "."
 
   # CSS Plugins
   [[params.plugins.css]]
-  URL = "https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css"
+  URL = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.17.11/css/uikit.min.css"
 
   # JS Plugins
   [[params.plugins.js]]
-  URL = "https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"
+  URL = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.17.11/js/uikit.min.js"
   [[params.plugins.js]]
-  URL = "https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit-icons.min.js"
+  URL = "https://cdnjs.cloudflare.com/ajax/libs/uikit/3.17.11/js/uikit-icons.min.js"
   [[params.plugins.js]]
   URL = "/js/medium-zoom-1.0.8.min.js"
 

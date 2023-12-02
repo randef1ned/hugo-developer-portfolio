@@ -1,0 +1,11 @@
+photos:
+  enabled: true
+  item:
+  - date: date
+    image: /images/screenshot.png
+    description: description
+  - date: dt
+    image: /images/tn.pg
+    description: description
+
+
