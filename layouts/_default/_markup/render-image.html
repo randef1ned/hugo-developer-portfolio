@@ -1,24 +1,23 @@
 <!--layouts/_default/_markup/render-image.html-->
 
 <figure class="figure large text-center view-box" view-image>
-  {{ $imgPath := .Destination }}
-  {{ $destImgPath := $imgPath }}
-  {{ $fileExt := (path.Ext $imgPath) }}
-  {{ $isJPG := eq $fileExt ".jpg" }}
-  {{ $isPNG := eq $fileExt ".png" }}
-  {{ $ext := replace $fileExt "." "" 1 }}
-  <a href="{{ $imgPath }}">
+  {{ $image := .Destination }}
+  {{ $image_ext := (path.Ext $image) }}
+  {{ $is_jpg := eq $image_ext ".jpg" }}
+  {{ $is_png := eq $image_ext ".png" }}
+  {{ $ext := replace $image_ext "." "" 1 }}
+  <a href="{{ $image | absURL }}">
     <picture>
-      {{ if or ($isJPG) ($isPNG) }}
-        {{ $avifPath:= replace $destImgPath (path.Ext $imgPath) ".avif" }}
-        {{ $webpPath:= replace $destImgPath (path.Ext $imgPath) ".webp" }}
-        {{ if ($isJPG) }}
-          <source srcset="{{ $avifPath | safeURL }}" type="image/avif" />
+      {{ if or ($is_jpg) ($is_png) }}
+        {{ $avif:= replace $image (path.Ext $image) ".avif" }}
+        {{ $webp:= replace $image (path.Ext $image) ".webp" }}
+        {{ if $is_jpg }}
+          <source srcset="{{ $avif | absURL }}" type="image/avif">
         {{ end }}
-        <source srcset="{{ $webpPath | safeURL }}" type="image/webp" />
-        <source srcset="{{ $destImgPath | safeURL }}" type="image/{{ $ext }}" />
+        <source srcset="{{ $webp | absURL }}" type="image/webp">
+        <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}">
       {{ end }}
-      <img src="{{ $imgPath }}" class="figure-img img-fluid rounded shadow-4 mb-4" loading="lazy" decoding="async" style="max-width: 35%;">
+      <img src="{{ $image | absURL }}" class="figure-img img-fluid rounded shadow-4 mb-4" loading="lazy" decoding="async" style="max-width: 35%;">
       <figcaption class="figure-caption">{{ .Title | markdownify }}</figcaption>
     </picture>
   </a>

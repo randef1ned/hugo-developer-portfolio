@@ -3,23 +3,27 @@
 
 <div class="row">
   <div class="col-md-4">
-    <picture>
+    <figure class="figure large text-center view-box" view-image>
       {{ $image := .Params.AuthorImage }}
       {{ $image_ext := (path.Ext $image) }}
       {{ $is_jpg := eq $image_ext ".jpg" }}
       {{ $is_png := eq $image_ext ".png" }}
       {{ $ext := replace $image_ext "." "" 1 }}
-      {{ if or ($is_jpg) ($is_png) }}
-        {{ $avif:= replace $image (path.Ext $image) ".avif" }}
-        {{ $webp:= replace $image (path.Ext $image) ".webp" }}
-        {{ if $is_jpg }}
-          <source srcset="{{ $avif | absURL }}" type="image/avif" />
-        {{ end }}
-        <source srcset="{{ $webp | absURL }}" type="image/webp" />
-        <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}" />
-      {{ end }}
-      <img class="contain publications medium-zoom-image dark-rev" src="{{ $image | absURL }}" id="zoom-margin" loading="lazy" decoding="async" alt="author" />
-    </picture>
+      <a href="{{ $image | absURL}}">
+        <picture>
+          {{ if or ($is_jpg) ($is_png) }}
+            {{ $avif:= replace $image (path.Ext $image) ".avif" }}
+            {{ $webp:= replace $image (path.Ext $image) ".webp" }}
+            {{ if $is_jpg }}
+              <source srcset="{{ $avif | absURL }}" type="image/avif">
+            {{ end }}
+            <source srcset="{{ $webp | absURL }}" type="image/webp">
+            <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}">
+          {{ end }}
+          <img src="{{ $image | absURL }}" class="figure-img img-fluid rounded shadow-4 mb-4" loading="lazy" decoding="async">
+        </picture>
+      </a>
+    </figure>
   </div>
   <div class="col-md-8">
     {{ .Content }}
