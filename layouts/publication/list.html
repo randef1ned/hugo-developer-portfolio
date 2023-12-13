@@ -1,323 +1,315 @@
 {{ define "main" }}
 {{ partial "page-title.html" . }}
-{{ "<!-- Publication -->" | safeHTML }}
 {{ $publications := resources.Get "css/publication.css" | minify }}
 <link rel="stylesheet" href="{{ $publications.Permalink | relURL}}">
 
-<section class="uk-margin-xlarge-bottom">
+<div class="col col-md-10 offset-md-1 p-2">
   {{ if .Site.Data.publication.papers.enabled }}
-    <div class="uk-container">
-      <h1 class="uk-heading-line uk-heading-medium  uk-margin-large-bottom"><span>Research Papers</span></h1>
-      {{ range .Site.Data.publication.papers.item }}
-        <div class="uk-margin-large-bottom">
-          <div class="uk-container">
-            <div class="uk-flex-center" uk-grid uk-height-match=".publication">
-              <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <picture>
-                  {{ if .image }}
-                    {{ $image_ext := (path.Ext .image) }}
-                    {{ $is_jpg := eq $image_ext ".jpg" }}
-                    {{ $is_png := eq $image_ext ".png" }}
-                    {{ $ext := replace $image_ext "." "" 1 }}
-                    {{ if or ($is_jpg) ($is_png) }}
-                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                      {{ if $is_jpg }}
-                        <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                      {{ end }}
-                      <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                      <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                    {{ end }}
-                    <img class="contain publications medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+    <div class="row">
+      <h1>Research papers</h1>
+    </div>
+    {{ range .Site.Data.publication.papers.item }}
+    <div class="row p-2">
+      <div class="card card-border border-dark">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <picture style="display: inline-block;">
+              {{ if .image }}
+                {{ $image_ext := (path.Ext .image) }}
+                {{ $is_jpg := eq $image_ext ".jpg" }}
+                {{ $is_png := eq $image_ext ".png" }}
+                {{ $ext := replace $image_ext "." "" 1 }}
+                {{ if or ($is_jpg) ($is_png) }}
+                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                  {{ if $is_jpg }}
+                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
                   {{ end }}
-                  {{ if .date }}
-                    <figcaption class="date">{{ .date }}</figcaption>
-                  {{ end }}
-                </picture>
-              </div>
-              <div class="uk-width-expand@m publication">
-                <h3 class="uk-text-bold">{{.title}}</h3>
-                <p class="uk-text"> 
-                  {{ if .authors }}
-                    Author list: 
-                    {{ range .authors }}
-                      {{ if eq .author "me"}}
-                        <em class="uk-text-italic uk-text-bold">{{$.Site.Params.Author}}</em>
-                      {{ else }}
-                        <em class="uk-text-italic">{{.author}}</em>
-                      {{ end }}
+                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+                {{ end }}
+                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+              {{ end }}
+              {{ if .date }}
+                <figcaption class="date">{{ .date }}</figcaption>
+              {{ end }}
+            </picture>
+          </div>
+          <div class="col-sm-9">
+            <div class="card-body">
+              <h5 class="card-title">{{ .title }}</h5>
+              {{ if .authors }}
+                <p class="card-text">
+                  Author list: 
+                  {{ range .authors }}
+                    {{ if eq .author "me"}}
+                      <em class="fw-italic fw-bold">{{$.Site.Params.Author}}</em>
+                    {{ else }}
+                      <em class="fw-italic">{{.author}}</em>
                     {{ end }}
                   {{ end }}
                 </p>
-                {{ if .academy }}
-                <p class="uk-text-bolder">{{.academy}}</p>
-                {{ end }}
-                {{ if .journal }}
-                  <p class="uk-text">Journal: <span class="uk-text-italic">{{.journal}}.</span>
-                    {{ if .volume }}
-                      <span class="uk-text-italic">{{.volume}}</span>
-                    {{ end }}
-                    {{ if .issue }}
-                      (<span class="uk-text-bolder">{{.issue}}</span>)
-                    {{ end }}
-                    {{ if .status }}
-                      ({{ .status }})
-                    {{ end }}
-                  </p>
-                {{ end }}
-                <p>
-                {{.description}}
-                </p>
-                <p>
-                  {{ if .doi }}
-                    <a class="uk-button uk-button-primary" href="https://doi.org/{{.doi}}" target="_blank">DOI</a>
+              {{ end }}
+              {{ if .academy }}
+                <p class="card-text fw-bolder">{{.academy}}</p>
+              {{ end }}
+              {{ if .journal }}
+                <p class="card-text">Journal: <span class="fst-italic">{{.journal}}.</span>
+                  {{ if .volume }}
+                    <span class="fst-italic">{{.volume}}</span>
                   {{ end }}
-                  {{ if .arxiv_id }}
-                    <a class="uk-button uk-button-primary" href="https://arxiv.org/abs/{{.arxiv_id}}" target="_blank">arXiv</a>
+                  {{ if .issue }}
+                    (<span class="fw-bolder">{{.issue}}</span>)
                   {{ end }}
-                  {{ if .pdf_link }}
-                    <a class="uk-button uk-button-primary" href="{{.pdf_link}}" target="_blank">PDF</a>
-                  {{ end }}
-                  {{ if .pubmed_id }}
-                    <a class="uk-button uk-button-primary" href="https://pubmed.ncbi.nlm.nih.gov/{{.pubmed_id}}/" target="_blank">PubMed</a>
-                  {{ end }}
-                  {{ if .pmc_id }}
-                    <a class="uk-button uk-button-primary" href="https://www.ncbi.nlm.nih.gov/pmc/articles/{{.pmc_id}}/" target="_blank">PMC free article</a>
-                  {{ end }}
-                  {{ if .code_link }}
-                    <a class="uk-button uk-button-primary" href="{{.code_link}}" target="_blank">Code</a>
-                  {{ end }}
-                  {{ if .data_link }}
-                    <a class="uk-button uk-button-primary" href="{{.data_link}}" target="_blank">Data</a>
-                  {{ end }}
-                  {{ if .contributions }}
-                  <a class="uk-button uk-button-primary" uk-toggle="target: #modal_paper_{{ replaceRE "\\W" "_" .title }}">Contributions</a>
+                  {{ if .status }}
+                    ({{ .status }})
                   {{ end }}
                 </p>
-                {{ if .contributions}}
-                  <div id="modal_paper_{{ replaceRE "\\W" "_" .title }}" uk-modal>
-                    <div class="uk-modal-dialog uk-modal-body">
-                      <button class="uk-modal-close-default" type="button" uk-close></button>
-                      <div class="uk-modal-header">
-                        <h2 class="uk-modal-title">Contributions to <i>{{.title}}</i></h2>
-                      </div>
-                      <div class="uk-modal-body">{{ .contributions | safeHTML }}</div>
-                    </div>
-                  </div>
+              {{ end }}
+              <p class="card-text">
+                {{ .description }}
+              </p>
+              <p class="card-text">
+                {{ if .doi }}
+                  <a class="card-link" href="https://doi.org/{{.doi}}" target="_blank">DOI</a>
                 {{ end }}
-              </div>
+                {{ if .arxiv_id }}
+                  <a class="card-link" href="https://arxiv.org/abs/{{.arxiv_id}}" target="_blank">arXiv</a>
+                {{ end }}
+                {{ if .pdf_link }}
+                  <a class="card-link" href="{{.pdf_link}}" target="_blank">PDF</a>
+                {{ end }}
+                {{ if .pubmed_id }}
+                  <a class="card-link" href="https://pubmed.ncbi.nlm.nih.gov/{{.pubmed_id}}/" target="_blank">PubMed</a>
+                {{ end }}
+                {{ if .pmc_id }}
+                  <a class="card-link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/{{.pmc_id}}/" target="_blank">PMC free article</a>
+                {{ end }}
+                {{ if .code_link }}
+                  <a class="card-link" href="{{.code_link}}" target="_blank">Code</a>
+                {{ end }}
+                {{ if .data_link }}
+                  <a class="card-link" href="{{.data_link}}" target="_blank">Data</a>
+                {{ end }}
+                {{ if .contributions }}
+                  <a tabindex="0" class="card-link" role="button" data-mdb-ripple-init
+                    data-mdb-popover-init data-mdb-trigger="focus" data-mdb-placement="right" 
+                    title="My contributions" data-mdb-content="{{ .contributions | safeHTML }}">
+                    My contributions
+                  </a>
+                {{ end }}
+              </p>
             </div>
           </div>
         </div>
-      {{ end }}
-    </div>
+      </div>
+      </div>
+    {{ end }}
   {{ end }}
-  
+</div>
+
+<div class="col col-md-10 offset-md-1 p-2">
   {{ if .Site.Data.publication.conferences.enabled }}
-    <div class="uk-container">
-      <h1 class="uk-heading-line uk-heading-medium  uk-margin-large-bottom"><span>Conference Proceedings</span></h1>
-      {{ range .Site.Data.publication.conferences.item }}
-        <div class="uk-margin-large-bottom">
-          <div class="uk-container">
-            <div class="uk-flex-center" uk-grid uk-height-match=".publication">
-              <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <picture>
-                  {{ if .image }}
-                    {{ $image_ext := (path.Ext .image) }}
-                    {{ $is_jpg := eq $image_ext ".jpg" }}
-                    {{ $is_png := eq $image_ext ".png" }}
-                    {{ $ext := replace $image_ext "." "" 1 }}
-                    {{ if or ($is_jpg) ($is_png) }}
-                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                      {{ if $is_jpg }}
-                        <source srcset="{{ $avif | safeURL }}" type="image/avif" />
-                      {{ end }}
-                      <source srcset="{{ $webp | safeURL }}" type="image/webp" />
-                      <source srcset="{{ .image | safeURL }}" type="image/{{ $ext }}" />
-                    {{ end }}
-                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" loading="lazy" decoding="async">
+    <div class="row">
+      <h1>Conference Proceedings</h1>
+    </div>
+    {{ range .Site.Data.publication.conferences.item }}
+    <div class="row">
+      <div class="card card-border border-dark">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <picture style="display: inline-block;">
+              {{ if .image }}
+                {{ $image_ext := (path.Ext .image) }}
+                {{ $is_jpg := eq $image_ext ".jpg" }}
+                {{ $is_png := eq $image_ext ".png" }}
+                {{ $ext := replace $image_ext "." "" 1 }}
+                {{ if or ($is_jpg) ($is_png) }}
+                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                  {{ if $is_jpg }}
+                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
                   {{ end }}
-                  {{ if .date }}
-                    <figcaption class="date">{{ .date }}</figcaption>
-                  {{ end }}
-                </picture>
-              </div>
-              <div class="uk-width-expand@m publication">
-                <h3 class="uk-text-bold">{{.title}}</h3>
-                <p class="uk-text"> 
-                  {{ if .authors }}
-                    Author list: 
-                    {{ range .authors }}
-                      {{ if eq .author "me"}}
-                        <em class="uk-text-italic uk-text-bold">{{$.Site.Params.Author}}</em>
-                      {{ else }}
-                        <em class="uk-text-italic">{{.author}}</em>
-                      {{ end }}
+                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+                {{ end }}
+                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+              {{ end }}
+              {{ if .date }}
+                <figcaption class="date">{{ .date }}</figcaption>
+              {{ end }}
+            </picture>
+          </div>
+          <div class="col-sm-9">
+            <div class="card-body">
+              <h5 class="card-title">{{ .title }}</h5>
+              {{ if .authors }}
+                <p class="card-text">
+                  Author list: 
+                  {{ range .authors }}
+                    {{ if eq .author "me"}}
+                      <em class="fst-italic ">{{$.Site.Params.Author}}</em>
+                    {{ else }}
+                      <em class="fst-italic">{{.author}}</em>
                     {{ end }}
                   {{ end }}
                 </p>
-                {{ if .location }}
-                <p class="uk-text-bolder">{{.location}}</p>
-                {{ end }}
-                {{ if .conference }}
-                  <p class="uk-text">In: <span class="uk-text-italic">{{.conference}}.</span>
-                    {{ if .pages }}
-                      <span class="uk-text-italic">Pages {{.volume}}</span>
-                    {{ end }}
-                  </p>
-                {{ end }}
-                <p>
-                {{.description}}
-                </p>
-                <p>
-                  {{ if .doi }}
-                    <a class="uk-button uk-button-primary" href="https://doi.org/{{.doi}}">DOI</a>
-                  {{ end }}
-                  {{ if .pdf_link }}
-                    <a class="uk-button uk-button-primary" href="{{.pdf_link}}">PDF</a>
-                  {{ end }}
-                  {{ if .code_link }}
-                    <a class="uk-button uk-button-primary" href="{{.code_link}}">Code</a>
-                  {{ end }}
-                  {{ if .data_link }}
-                    <a class="uk-button uk-button-primary" href="{{.data_link}}">Data</a>
-                  {{ end }}
-                  {{ if .url }}
-                    <a class="uk-button uk-button-primary" href="{{.url}}">Link</a>
-                  {{ end }}
-                  {{ if .contributions }}
-                  <a class="uk-button uk-button-primary" uk-toggle="target: #modal_conf_{{ replaceRE "\\W" "_" .title }}">Contributions</a>
+              {{ end }}
+              {{ if .location }}
+              <p class="card-text">{{.location}}</p>
+              {{ end }}
+              {{ if .conference }}
+                <p class="card-text">In: <span class="fst-italic">{{.conference}}.</span>
+                  {{ if .pages }}
+                    <span class="fst-italic">Pages {{.volume}}</span>
                   {{ end }}
                 </p>
-                {{ if .contributions}}
-                  <div id="modal_conf_{{ replaceRE "\\W" "_" .title }}" uk-modal>
-                    <div class="uk-modal-dialog uk-modal-body">
-                      <button class="uk-modal-close-default" type="button" uk-close></button>
-                      <div class="uk-modal-header">
-                        <h2 class="uk-modal-title">Contributions to <i>{{.title}}</i></h2>
-                      </div>
-                      <div class="uk-modal-body">{{ .contributions | safeHTML }}</div>
-                    </div>
-                  </div>
+              {{ end }}
+              <p class="card-text">
+                {{ .description }}
+              </p>
+              <p class="card-text">
+                {{ if .doi }}
+                  <a class="card-link" href="https://doi.org/{{.doi}}" target="_blank">DOI</a>
                 {{ end }}
-              </div>
+                {{ if .pdf_link }}
+                  <a class="card-link" href="{{.pdf_link}}" target="_blank">PDF</a>
+                {{ end }}
+                {{ if .code_link }}
+                  <a class="card-link" href="{{.code_link}}" target="_blank">Code</a>
+                {{ end }}
+                {{ if .data_link }}
+                  <a class="card-link" href="{{.data_link}}" target="_blank">Data</a>
+                {{ end }}
+                {{ if .url }}
+                  <a class="card-link" href="{{.url}}" target="_blank">Link</a>
+                {{ end }}
+                {{ if .contributions }}
+                  <a tabindex="0" class="card-link" role="button" data-mdb-ripple-init
+                    data-mdb-popover-init data-mdb-trigger="focus" data-mdb-placement="right" 
+                    title="My contributions" data-mdb-content="{{ .contributions | safeHTML }}">
+                    My contributions
+                  </a>
+                {{ end }}
+              </p>
             </div>
           </div>
         </div>
-      {{ end }}
-    </div>
+      </div>
+      </div>
+    {{ end }}
   {{ end }}
-  
+</div>
+
+<div class="col col-md-10 offset-md-1 p-2">
   {{ if .Site.Data.publication.books.enabled }}
-    <div class="uk-container">
-      <h1 class="uk-heading-line uk-heading-medium  uk-margin-large-bottom"><span>Books and book chapters</span></h1>
-      {{ range .Site.Data.publication.books.item }}
-        <div class="uk-margin-large-bottom">
-          <div class="uk-container">
-            <div class="uk-flex-center" uk-grid uk-height-match=".publication">
-              <div class="uk-width-1-2 uk-width-1-4@s publication">
-                <picture>
-                  {{ if .image }}
-                    {{ $image_ext := (path.Ext .image) }}
-                    {{ $is_jpg := eq $image_ext ".jpg" }}
-                    {{ $is_png := eq $image_ext ".png" }}
-                    {{ $ext := replace $image_ext "." "" 1 }}
-                    {{ if or ($is_jpg) ($is_png) }}
-                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                      {{ if $is_jpg }}
-                        <source srcset="{{ $avif | safeURL }}" type="image/avif" />
-                      {{ end }}
-                      <source srcset="{{ $webp | safeURL }}" type="image/webp" />
-                      <source srcset="{{ .image | safeURL }}" type="image/{{ $ext }}" />
-                    {{ end }}
-                    <img class="contain publications medium-zoom-image" src="{{.image}}" id="zoom-margin" loading="lazy" decoding="async">
+    <div class="row">
+      <h1>Books and book chapters</h1>
+    </div>
+    {{ range .Site.Data.publication.books.item }}
+    <div class="row p-2">
+      <div class="card card-border border-dark">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <picture style="display: inline-block;">
+              {{ if .image }}
+                {{ $image_ext := (path.Ext .image) }}
+                {{ $is_jpg := eq $image_ext ".jpg" }}
+                {{ $is_png := eq $image_ext ".png" }}
+                {{ $ext := replace $image_ext "." "" 1 }}
+                {{ if or ($is_jpg) ($is_png) }}
+                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                  {{ if $is_jpg }}
+                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
                   {{ end }}
-                  {{ if .date }}
-                    <figcaption class="date">{{ .date }}</figcaption>
-                  {{ end }}
-                </picture>
-              </div>
-              <div class="uk-width-expand@m publication">
-                <h3 class="uk-text-bold">
-                  {{ if .chapter }}
-                    {{.chapter}}
-                  {{ else }}
-                    {{.title}}
-                  {{ end }}
-                </h3>
-                <p class="uk-text"> 
-                  {{ if .authors }}
-                    By: 
-                    {{ range .authors }}
-                      {{ if eq .author "me"}}
-                        <em class="uk-text-italic uk-text-bold">{{$.Site.Params.Author}}</em>
-                      {{ else }}
-                        <em class="uk-text-italic">{{.author}}</em>
-                      {{ end }}
+                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+                {{ end }}
+                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+              {{ end }}
+              {{ if .date }}
+                <figcaption class="date">{{ .date }}</figcaption>
+              {{ end }}
+            </picture>
+          </div>
+          <div class="col-sm-9">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ if .chapter }}
+                  {{.chapter}}
+                {{ else }}
+                  {{.title}}
+                {{ end }}
+              </h5>
+              {{ if .authors }}
+                <p class="card-text">
+                  Author list: 
+                  {{ range .authors }}
+                    {{ if eq .author "me"}}
+                      <em class="fst-italic ">{{$.Site.Params.Author}}</em>
+                    {{ else }}
+                      <em class="fst-italic">{{.author}}</em>
                     {{ end }}
                   {{ end }}
                 </p>
-                {{ if .chapter }}
-                  <p class="uk-text-bolder">
+              {{ end }}
+              {{ if .chapter }}
+                <p class="card-text">
+                  <p class="fw-bolder">
                     {{ if .pages }}
-                      In: {{.title}}, <span class="uk-text-italic">Pages {{.volume}}</span>
+                      In: {{.title}}, <span class="fst-italic">Pages {{.volume}}</span>
                     {{ else }}
                       In: {{.title}}.
                     {{ end }}
                   </p>
+                </p>
+              {{ end }}
+              {{ if .publisher }}
+                <p class="card-text">
+                  <span> Publisher: {{ .publisher }}
+                  {{ if .location }}
+                    , {{ .location }}
+                  {{ end }}
+                  </span>
+                  {{ if .pages }}
+                    <span class="fst-italic">Pages {{.volume}}</span>
+                  {{ end }}
+                </p>
+              {{ end }}
+              <p class="card-text">
+                {{ .description }}
+              </p>
+              <p class="card-text">
+                {{ if .isbn }}
+                  <a class="card-link">ISBN: {{.isbn}}</a>
                 {{ end }}
-
-                <p class="uk-text-normal">
-                  {{ if .publisher }}
-                    <span> Publisher: {{ .publisher }}
-                    {{ if .location }}
-                      , {{ .location }}
-                    {{ end }}
-                    </span>
-                  {{ end }}
-                </p>
-                
-                <p>
-                {{.description}}
-                </p>
-                <p>
-                  {{ if .isbn }}
-                    <span>ISBN: {{.isbn}}</span>
-                  {{ end }}
-                  {{ if .worldcat_id }}
-                    <a class="uk-button uk-button-primary" href="https://www.worldcat.org/title/{{.worldcat_id}}">WorldCat</a>
-                  {{ end }}
-                  {{ if .publisher_link }}
-                    <a class="uk-button uk-button-primary" href="{{.publisher_link}}">Publisher</a>
-                  {{ end }}
-                  {{ if .link }}
-                    <a class="uk-button uk-button-primary" href="{{.link}}">Link</a>
-                  {{ end }}
-                  {{ if .contributions }}
-                  <a class="uk-button uk-button-primary" uk-toggle="target: #modal_book_{{ replaceRE "\\W" "_" .title }}">Contributions</a>
-                  {{ end }}
-                </p>
-                {{ if .contributions}}
-                  <div id="modal_book_{{ replaceRE "\\W" "_" .title }}" uk-modal>
-                    <div class="uk-modal-dialog uk-modal-body">
-                      <button class="uk-modal-close-default" type="button" uk-close></button>
-                      <div class="uk-modal-header">
-                        <h2 class="uk-modal-title">Contributions to <i>{{.title}}</i></h2>
-                      </div>
-                      <div class="uk-modal-body">{{ .contributions | safeHTML }}</div>
-                    </div>
-                  </div>
+                {{ if .worldcat_id }}
+                  <a class="card-link" href="https://www.worldcat.org/title/{{.worldcat_id}}" target="_blank">WorldCat</a>
                 {{ end }}
-              </div>
+                {{ if .publisher_link }}
+                  <a class="card-link" href="{{.publisher_link}}" target="_blank">Publisher</a>
+                {{ end }}
+                {{ if .link }}
+                  <a class="card-link" href="{{.link}}" target="_blank">Link</a>
+                {{ end }}
+                {{ if .contributions }}
+                  <a tabindex="0" class="card-link" role="button" data-mdb-ripple-init
+                    data-mdb-popover-init data-mdb-trigger="focus" data-mdb-placement="right" 
+                    title="My contributions" data-mdb-content="{{ .contributions | safeHTML }}">
+                    My contributions
+                  </a>
+                {{ end }}
+              </p>
             </div>
           </div>
         </div>
-      {{ end }}
-    </div>
+      </div>
+      </div>
+    {{ end }}
   {{ end }}
-</section>
+</div>
+
 {{ end }}
 
 

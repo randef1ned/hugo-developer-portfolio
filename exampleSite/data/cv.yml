@@ -1,0 +1,201 @@
+personal_information:
+  column1:
+    - key: Email
+      value: email@cornell.edu
+    - key: Phone
+      value: (314) 159-2654
+  column2:
+    - key: GitHub
+      value: //github-username
+    - key: LinkedIn
+      value: //LinkedIn-URL
+  column3:
+    - key: Office
+      value: Your Building 101
+    - key: Citizenship
+      value: Country
+
+interests:
+  enabled: true
+  item: Your favorite topic, another topic, another topic, another topic, another topic
+
+education:
+  enabled: true
+  rename: Education
+  item:
+    - university: University 1
+      city: City, State
+      degree: PhD in Subject
+      starting: Month Year
+      end: Present
+      detail: Nothing
+      
+    - university: University 2
+      city: City, State
+      degree: PhD in Subject
+      starting: Month Year
+      end: Present
+      detail: Nothing
+
+honor:
+  enabled: true
+  rename: Honors and scholarships
+  item:
+    - name: Name of award 1 (Organization that gave you the award)
+      year: 2020
+    - name: Name of award 2 (Organization that gave you the award)
+      year: 2019
+    - name: Name of award 3 (Organization that gave you the award)
+      year: 2015
+
+publication:
+  enabled: true
+  rename: Publications
+  item:
+    - title: Title of your most recent research paper
+      author: First author, second author, third author, fourth author
+      journal: My journal
+      volume: 2
+      issue: 3
+      year: 2023
+      status: under review
+    
+    - title: Title of your most recent research paper
+      author: First author, second author, third author, fourth author
+      journal: My journal
+      volume: 1
+      issue: 2
+      year: 2023
+    
+    - title: Title of your most recent research paper
+      author: First author, second author, third author, fourth author
+      journal: My journal
+      volume: 44
+      issue: 55
+      year: 2099
+    
+research:
+  enabled: true
+  rename: Research experience
+  item:
+    - title: Title of project or lab where research was conducted
+      supervisor: Professor A (University)
+      starting: Month Year
+      end: Present
+      description: >+
+        Description of your work. 
+        Summary of findings available here. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque. Integer pretium semper justo.
+
+    - title: Title of project or lab where research was conducted
+      supervisor: Professor B (University)
+      starting: Month Year
+      end: Present
+      description: >+
+        Description of your work. 
+        Summary of findings available here. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque. Integer pretium semper justo.
+
+teaching:
+  enabled: true
+  rename: Teaching experience
+  item:
+    - class: "STAT 123: Name of course here"
+      position: Teaching assistant, Department of Subject (University)
+      semester: Fall 2020
+      responsibility: >+
+        Topics and description of your responsibilities. 
+        Aliquam volutpat est vel massa. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque.
+      description: >+
+        Average student rating: X/5.
+    - class: "STAT 345: Name of course here"
+      position: Teaching assistant, Department of Subject (University)
+      semester: Fall 2019
+      responsibility: >+
+        Topics and description of your responsibilities. 
+        Aliquam volutpat est vel massa. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque.
+      description: >+
+        Average student rating: X/5.
+      
+industry:
+  enabled: true
+  rename: Industry experience
+  item:
+    - company: Name of company
+      division: Division of company
+      job: Title of job or internship
+      date: Summer 2020
+      city: City, State
+      description: >+
+        Description of your responsibilities. 
+        Integer pretium semper justo. Proin risus. Nullam id quam. 
+        Nam neque. Phasellus at purus et lib ero lacinia dictum. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque.
+
+talk:
+  enabled: true
+  rename: Talks and tutorials
+  item:
+    - title: Title of your most recent presentation
+      date: Month Year
+      description: >+
+        Name of conference, workshop, seminar, venue, etc., or a description.
+    - title: Title of your second most recent presentation
+      date: Month Year
+      description: >+
+        Name of conference, workshop, seminar, venue, etc., or a description.
+
+skill:
+  enabled: true
+  rename: Skills
+  item:
+    - category: Programming
+      detail:
+      - "Proficient in: programming language 1, programming language 2."
+      - "Familiar with: programming language 3, programming language 4."
+
+service:
+  enabled: true
+  rename: Service and outreach
+  item:
+    - organization: Title of organization you were in
+      starting: Month Year
+      end: Present
+      description: >+
+        Description of your responsibilities. 
+        Integer pretium semper justo. 
+        Proin risus. 
+        Aliquam volutpat est vel massa
+
+membership:
+  enabled: true
+  rename: Professional memberships
+  item:
+    - name: Name of professional society.
+      starting: Month Year
+      end: Present
+      description: >+
+        Some things you did or conferences you attended. 
+        Aliquam volutpat est vel massa. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque.
+    - name: Name of professional society.
+      starting: Month Year
+      end: Month Year
+      description: >+
+        Some things you did or conferences you attended. <br>
+        Aliquam volutpat est vel massa. 
+        Sed dolor lacus, imperdiet non, ornare non, commodo eu, neque.
+      
+hobby:
+  enabled: true
+  rename: Other interests
+  item: 
+  - >+
+    - Some of your hobbies etc.
+    
+    - Other points
+  - Ohhh
+  - hhhh
+

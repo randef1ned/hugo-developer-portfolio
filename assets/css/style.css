@@ -1,18 +1,12 @@
-@import "https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:300,400,500,700&display=swap";
-.contain {
-  object-fit: contain;
-}
-
 html {
   height: 100vh;
+  font-size: 12pt;
 }
 
 body {
   min-height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
-  line-height: 1.65;
-  color: #505050;
 }
 
 .footer {
@@ -20,9 +14,6 @@ body {
   grid-row-end: 3;
 }
 
-p, .uk-form-label, table, li {
-  font-size: 1.15em;
-}
 .uk-button-text {
   border-bottom: 1px solid #333;
 }
@@ -76,9 +67,9 @@ figcaption {
   font-style: normal;
 }
 
-picture img {
-  border: solid thin black;
-  padding: 10px;
+.dark-img {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 em {
@@ -88,4 +79,9 @@ em {
 img.experience {
   width: 150px;
   height: 180px;
+}
+
+picture, img {
+  max-width: 100%;
+  height: auto;
 }

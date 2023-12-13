@@ -1,0 +1,461 @@
+{{ define "main" }}
+{{ $cv := resources.Get "css/cv.css" | minify }}
+<link rel="stylesheet" href="{{ $cv.Permalink | relURL}}">
+
+<div class="text-black" id="cv">
+  <div class="row d-flex flex-column flex-md-row p-2"></div>
+  
+  {{ if .Content }}
+  <div class="row d-flex flex-column flex-md-row p-2">
+    <div class="text-center fst-italic fw-light">
+      {{ .Content }}
+    </div>
+  </div>
+  {{ end }}
+  
+  <!-- Your name here -->
+  
+  <div class="row justify-content-between align-items-center p-2">
+    <div class="col-auto">
+      <div class="fs-2">{{ .Site.Params.Author }}</div>
+    </div>
+    <div class="col-auto fst-italic">
+      <time datetime="{{.Date}}">Updated {{ .Date.Format "January 2, 2006" }}</time>
+    </div>
+  </div>
+  <div class="row p-1"></div>
+  
+  <!-- Your information here -->
+  
+  <div class="row justify-content-between p-2">
+    <div class="col-auto">
+      {{ range .Site.Data.cv.personal_information.column1 }}
+        <div><b>{{ .key }}:</b> {{ .value | markdownify }}</div>
+      {{ end }}
+    </div>
+    <div class="col-auto">
+      {{ range .Site.Data.cv.personal_information.column2 }}
+        <div><b>{{ .key }}:</b> {{ .value | markdownify }}</div>
+      {{ end }}
+    </div>
+    <div class="col-auto">
+      {{ range .Site.Data.cv.personal_information.column3 }}
+        <div><b>{{ .key }}:</b> {{ .value | markdownify }}</div>
+      {{ end }}
+    </div>
+  </div>
+  
+  <!-- Research interests -->
+  
+  {{ if .Site.Data.cv.interests.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.interests.rename }}
+            {{ .Site.Data.cv.interests.rename }}
+          {{ else }}
+            Research interests
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div>{{ .Site.Data.cv.interests.item | markdownify }}</div>
+        </div>
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Education -->
+  {{ if .Site.Data.cv.education.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.education.rename }}
+            {{ .Site.Data.cv.education.rename }}
+          {{ else }}
+            Education
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $education := .Site.Data.cv.education.item }}
+        {{ $education_len := len $education }}
+        {{ range $index, $element := $education }}
+          <div class="row justify-content-between">
+            <div class="col-auto fw-bold">{{ $element.degree }}</div>
+            <div class="col-auto">{{ $element.city }}</div>
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-auto">{{ $element.university }}</div>
+            <div class="col-auto">{{ $element.starting }} – {{ $element.end }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.detail | markdownify }}</div>
+          </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $education_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Honors and scholarships -->
+  
+  {{ if .Site.Data.cv.honor.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.honor.rename }}
+            {{ .Site.Data.cv.honor.rename }}
+          {{ else }}
+            Honors and scholarships
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ range .Site.Data.cv.honor.item }}
+          <div class="row justify-content-between">
+            <div class="col-auto">{{ .name }}</div>
+            <div class="col-auto">{{ .year }}</div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Publications -->
+  
+  {{ if .Site.Data.cv.publication.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.publication.rename }}
+            {{ .Site.Data.cv.publication.rename }}
+          {{ else }}
+            Publications
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $publication := .Site.Data.cv.publication.item }}
+        {{ $publication_len := len $publication }}
+        {{ range $index, $element := $publication }}
+          <div class="row">
+            <div class="fw-bold">{{ $element.title }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.author | markdownify }}</div>
+          </div>
+          <div class="row">
+            {{ if $element.journal }}
+              <div>Journal: <span class="fst-italic">{{ $element.journal }}</span><span class="fw-normal">.</span>
+                {{ if $element.year }}
+                  <span class="fst-normal">{{$element.year}}.</span>
+                {{ end }}
+                {{ if $element.volume }}
+                  <span class="fst-italic">{{$element.volume}}</span>{{ if not $element.issue }}{{ if $element.page }}<span class="fw-normal">,</span>{{ end }}{{ end }}
+                {{ end }}
+                {{ if $element.issue }}
+                  <span class="fw-bolder">({{$element.issue}})</span>{{ if $element.page }}<span class="fw-normal">,</span>{{ else }}<span class="fw-normal">.</span>{{ end }}
+                {{ end }}
+                {{ if $element.page }}
+                  <span class="fw-normal">{{$element.page}}</span>
+                {{ end }}
+                {{ if $element.status }}
+                  <span class="fw-lighter">&nbsp;({{ $element.status }})</span>
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $publication_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Research experience -->
+  
+  {{ if .Site.Data.cv.research.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.research.rename }}
+            {{ .Site.Data.cv.research.rename }}
+          {{ else }}
+            Research experience
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $research := .Site.Data.cv.research.item }}
+        {{ $research_len := len $research }}
+        {{ range $index, $element := $research }}
+          <div class="row">
+            <div class="fw-bold">{{ $element.title }}</div>
+          </div>
+          {{ if $element.supervisor }}
+            <div class="row justify-content-between">
+              <div class="col-auto">Supervisor: {{ $element.supervisor }}</div>
+              <div class="col-auto">{{ $element.starting }} – {{ $element.end }}</div>
+            </div>
+          {{ end }}
+            <div class="row justify-content-between">
+              <div>{{ $element.description | markdownify }}</div>
+            </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $research_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Teaching experience -->
+  
+  {{ if .Site.Data.cv.teaching.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.teaching.rename }}
+            {{ .Site.Data.cv.teaching.rename }}
+          {{ else }}
+            Teaching experience
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $teaching := .Site.Data.cv.teaching.item }}
+        {{ $teaching_len := len $teaching }}
+        {{ range $index, $element := $teaching }}
+          <div class="row justify-content-between">
+            <div class="col-auto fw-bold">{{ $element.position }}</div>
+            <div class="col-auto">{{ $element.semester }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.class }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.responsibility | markdownify }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.description | markdownify }}</div>
+          </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $teaching_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Industry experience -->
+  
+  {{ if .Site.Data.cv.industry.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.industry.rename }}
+            {{ .Site.Data.cv.industry.rename }}
+          {{ else }}
+            Industry experience
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $industry := .Site.Data.cv.industry.item }}
+        {{ $industry_len := len $industry }}
+        {{ range $index, $element := $industry }}
+        <div class="row justify-content-between">
+          <div class="col-auto"><b>{{ $element.company }}</b>, {{ $element.division }}.</div>
+          <div class="col-auto">{{ $element.city }}</div>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-auto">{{ $element.job }}</div>
+          <div class="col-auto">{{ $element.time }}</div>
+        </div>
+        <div class="row">
+          <div>{{ $element.description | markdownify }}</div>
+        </div>
+        
+        <!-- separator -->
+          {{ if not (eq (add $index 1) $industry_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Talks and tutorials -->
+  
+  {{ if .Site.Data.cv.talk.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.talk.rename }}
+            {{ .Site.Data.cv.talk.rename }}
+          {{ else }}
+            Talks and tutorials
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $talk := .Site.Data.cv.talk.item }}
+        {{ $talk_len := len $talk }}
+        {{ range $index, $element := $talk }}
+          <div class="row justify-content-between">
+            <div class="col-auto fw-bold">{{ $element.title }}</div>
+            <div class="col-auto">{{ $element.date }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.description | markdownify }}</div>
+          </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $talk_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Skills -->
+  
+  {{ if .Site.Data.cv.skill.enabled}}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.skill.rename }}
+            {{ .Site.Data.cv.skill.rename }}
+          {{ else }}
+            Skills
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $skill := .Site.Data.cv.skill.item }}
+        {{ $talk_len := len $skill }}
+        {{ range $index, $element := $skill }}
+          <div class="row">
+            <div class="fw-bold">{{ $element.category }}</div>
+          </div>
+          {{ range $element.detail }}
+          <div class="row">
+            <div>{{ . | markdownify }}</div>
+          </div>
+          {{ end }}
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $talk_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Service and outreach -->
+  
+  {{ if .Site.Data.cv.service.enabled}}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.service.rename }}
+            {{ .Site.Data.cv.service.rename }}
+          {{ else }}
+            Service and outreach
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $service := .Site.Data.cv.service.item }}
+        {{ $service_len := len $service }}
+        {{ range $index, $element := $service }}
+          <div class="row justify-content-between">
+            <div class="col-auto fw-bold">{{ $element.organization }}</div>
+            <div class="col-auto">{{ $element.starting }} – {{ $element.end }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.description }}</div>
+          </div>
+        
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $service_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+  
+  <!-- Professional memberships -->
+  
+  {{ if .Site.Data.cv.membership.enabled }}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.membership.rename }}
+            {{ .Site.Data.cv.membership.rename }}
+          {{ else }}
+            Professional memberships
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ $membership := .Site.Data.cv.membership.item }}
+        {{ $membership_len := len $membership }}
+        {{ range $index, $element := $membership }}
+          <div class="row justify-content-between">
+            <div class="col-auto fw-bold">{{ $element.name }}.</div>
+            <div class="col-auto">{{ $element.starting }} – {{ $element.end }}</div>
+          </div>
+          <div class="row">
+            <div>{{ $element.description | markdownify }}</div>
+          </div>
+          
+          <!-- separator -->
+          {{ if not (eq (add $index 1) $membership_len) }}
+            <div class="row p-2"></div>
+          {{ end }}
+        {{ end }}
+    </div>
+  {{ end }}
+  
+  <!-- Other interests -->
+  
+  {{ if .Site.Data.cv.hobby.enabled}}
+    <div class="row p-2">
+      <div class="col-sm-2 cv-heading">
+        <div>
+          {{ if .Site.Data.cv.hobby.rename }}
+            {{ .Site.Data.cv.hobby.rename }}
+          {{ else }}
+            Other interests
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-sm-10">
+        {{ range .Site.Data.cv.hobby.item }}
+          <div class="row">
+            <div>{{ . | markdownify}}</div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+
+</div>
+{{ end }}

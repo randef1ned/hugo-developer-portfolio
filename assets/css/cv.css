@@ -1,0 +1,47 @@
+@font-face {
+    font-family: Libertinus; /* normal */
+    src: url('https://cdn.jsdelivr.net/gh/lutetiensis/libertinus@master/releases/Libertinus-7.000-r14-gbc8b13/static/WOFF2/LibertinusSerif-Regular.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Libertinus; /* italic */
+    src: url('https://cdn.jsdelivr.net/gh/lutetiensis/libertinus@master/releases/Libertinus-7.000-r14-gbc8b13/static/WOFF2/LibertinusSerif-Italic.woff2') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Libertinus; /* bold */
+    src: url('https://cdn.jsdelivr.net/gh/lutetiensis/libertinus@master/releases/Libertinus-7.000-r14-gbc8b13/static/WOFF2/LibertinusSerif-Bold.woff2') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Libertinus; /* bold */
+    src: url('https://cdn.jsdelivr.net/gh/lutetiensis/libertinus@master/releases/Libertinus-7.000-r14-gbc8b13/static/WOFF2/LibertinusSerif-BoldItalic.woff2') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+.intial_space {
+  height: 1%;
+  background-color: red;
+}
+#cv {
+  font-family: 'Libertinus';
+  font-size: 1.15em;
+}
+.cv_text {
+  font-size: 1.2em;
+}
+.cv-heading {
+  color: #3d8032;
+}
+.cv-header {
+  display: flex; 
+  align-items: center
+}

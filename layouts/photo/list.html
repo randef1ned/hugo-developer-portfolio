@@ -1,47 +1,65 @@
 {{ define "main" }}
 {{ partial "page-title.html" . }}
-{{ "<!-- Photography -->" | safeHTML }}
-<!-- about -->
 
-<section class="uk-margin-large-bottom">
-  <div class="uk-container">
-    {{ if .Site.Data.photo.photos.enabled }}
-      <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="clsActivated: uk-transition-active; center: true; autoplay: true; autoplay-interval: 5000;">
-        <ul class="uk-slider-items uk-grid">
-          {{ range .Site.Data.photo.photos.item }}
-            <li class="uk-width-3-4">
-              <div class="uk-panel">
-                <picture>
-                  {{ debug.Dump .image }}
-                  {{ $image_ext := (path.Ext .image) }}
-                  {{ $is_jpg := eq $image_ext ".jpg" }}
-                  {{ $is_png := eq $image_ext ".png" }}
-                  {{ $ext := replace $image_ext "." "" 1 }}
-                  {{ if or ($is_jpg) ($is_png) }}
-                    {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                    {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                    {{ if $is_jpg }}
-                      <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                    {{ end }}
-                    <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                    <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                  {{ end }}
-                  <img class="contain publications medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
-                </picture>
-                <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom">
-                  <h3 class="uk-margin-remove">{{ .date }}</h3>
-                  <p class="uk-margin-remove">{{ .description }}</p>
-                </div>
-              </div>
-            </li>
-          {{ end }}
-        </ul>
-      </div>
-      <a class="uk-position-center-left uk-position-small uk-hidden-hover" uk-slidenav-previous uk-slider-item="previous"></a>
-      <a class="uk-position-center-right uk-position-small uk-hidden-hover" uk-slidenav-next uk-slider-item="next"></a>
-    {{ end }}
+<div class="row col-md-8 offset-md-2 p-3">
+  <div id="gallery" class="carousel slide carousel-fade" data-mdb-ride="carousel" data-mdb-carousel-init>
+    {{ $photo := .Site.Data.photo.photos.item }}
+    {{ $photo_len := len $photo }}
+  
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      {{ range $index, $element := $photo }}
+        {{ if eq $index 1 }}
+          <button type="button" data-mdb-target="#gallery" data-mdb-slide-to="{{ $index }}" class="active" aria-current="true" aria-label="Slide {{ add $index 1 }}"></button>
+        {{ else }}
+          <button type="button" data-mdb-target="#gallery" data-mdb-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}"></button>
+        {{ end }}
+      {{ end }}
+    </div>
+    
+    <!-- Inner -->
+    <div class="carousel-inner rounded-5 shadow-4-strong">
+      {{ range $index, $element := $photo }}
+        {{ $actived := "" }}
+        {{ if eq (add $index 1) 1 }}
+          {{ $actived = " active" }}
+        {{ end }}
+          <div class="carousel-item{{ $actived }}">
+          <picture>
+            {{ $image_ext := (path.Ext $element.image) }}
+            {{ $is_jpg := eq $image_ext ".jpg" }}
+            {{ $is_png := eq $image_ext ".png" }}
+            {{ $ext := replace $image_ext "." "" 1 }}
+            {{ if or ($is_jpg) ($is_png) }}
+              {{ $avif := replace $element.image (path.Ext $element.image) ".avif" }}
+              {{ $webp := replace $element.image (path.Ext $element.image) ".webp" }}
+              {{ if $is_jpg }}
+                <source srcset="{{ $avif | absURL }}" type="image/avif" />
+              {{ end }}
+              <source srcset="{{ $webp | absURL }}" type="image/webp" />
+              <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+            {{ end }}
+            <img class="contain publications medium-zoom-image" src="{{ $element.image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+          </picture>
+          <div class="carousel-caption d-none d-md-block">
+            <h3 class="uk-margin-remove">{{ .date }}</h3>
+            <p class="uk-margin-remove">{{ .description }}</p>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+    
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-mdb-target="#gallery" data-mdb-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-mdb-target="#gallery" data-mdb-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-</section>
-
+  
+</div>
 
 {{ end }}

@@ -50,28 +50,28 @@
         {{ end }}
         {{ end }}
         {{ if .Site.Data.homepage.social.twitter }}
-        <li><a href="https://twitter.com/{{ .Site.Data.homepage.social.twitter }}" > <img
+        <li><a href="https://twitter.com/{{ .Site.Data.homepage.social.twitter }}" target="_blank"> <img
                     class="contain" src="/logos/twitter.svg" alt="Twitter" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.linkedin }}
-        <li><a href="https://www.linkedin.com/in/{{ .Site.Data.homepage.social.linkedin }}">
+        <li><a href="https://www.linkedin.com/in/{{ .Site.Data.homepage.social.linkedin }}" target="_blank">
             <img class="contain" src="/logos/linkedin-icon.svg" alt="LinkedIn" loading="lazy"> </a></li>
         {{ end }} {{ if .Site.Data.homepage.social.bitbucket }}
-        <li><a href="https://bitbucket.org/{{ .Site.Data.homepage.social.bitbucket }}"> <img
+        <li><a href="https://bitbucket.org/{{ .Site.Data.homepage.social.bitbucket }}" target="_blank"> <img
                     class="contain" src="/logos/bitbucket.svg" alt="Bitbucket" loading="lazy"> </a></li>
         {{ end }} {{ if .Site.Data.homepage.social.github }}
-        <li><a href="https://github.com/{{ .Site.Data.homepage.social.github }}"> <img
+        <li><a href="https://github.com/{{ .Site.Data.homepage.social.github }}" target="_blank"> <img
                     class="contain" src="/logos/github-icon.svg" alt="GitHub" loading="lazy"> </a></li>
         {{ end }} {{ if .Site.Data.homepage.social.gitlab }}
-        <li><a href="https://gitlab.com/{{ .Site.Data.homepage.social.gitlab }}"> <img
+        <li><a href="https://gitlab.com/{{ .Site.Data.homepage.social.gitlab }}" target="_blank"> <img
                     class="contain" src="/logos/gitlab.svg" alt="GitLab" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.facebook }}
-        <li><a href="https://www.facebook.com/{{ .Site.Data.homepage.social.facebook }}"> <img
+        <li><a href="https://www.facebook.com/{{ .Site.Data.homepage.social.facebook }}" target="_blank"> <img
                     class="contain" src="/logos/facebook.svg" alt="Facebook" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.instagram }}
-        <li><a href="https://instagram.com/{{ .Site.Data.homepage.social.instagram }}"> <img
+        <li><a href="https://instagram.com/{{ .Site.Data.homepage.social.instagram }}" target="_blank"> <img
                     class="contain" src="/logos/instagram-icon.svg" alt="Instagram" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.researchgate }}
-        <li><a href="https://www.researchgate.net/profile/{{ .Site.Data.homepage.social.researchgate }}"> <img
+        <li><a href="https://www.researchgate.net/profile/{{ .Site.Data.homepage.social.researchgate }}" target="_blank"> <img
                     class="contain" src="/logos/researchgate.svg" alt="ResearchGate" loading="lazy"></a></li>
         {{ end }}{{ if .Site.Data.homepage.social.gmail }}
         <li><a href="mailto:{{ .Site.Data.homepage.social.gmail }}@gmail.com" > <img
@@ -83,10 +83,10 @@
         <li><a href="mailto:{{ .Site.Data.homepage.social.email }}" > <img
                     class="contain" src="/logos/mail_fluent.svg" alt="Email" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.telegram }}
-        <li><a href="https://t.me/{{ .Site.Data.homepage.social.telegram }}"> <img
+        <li><a href="https://t.me/{{ .Site.Data.homepage.social.telegram }}" target="_blank"> <img
                     class="contain" src="/logos/telegram.svg" alt="Telegram" loading="lazy"></a></li>
         {{ end }} {{ if .Site.Data.homepage.social.whatsapp }}
-        <li><a href="https://wa.me/{{ .Site.Data.homepage.social.whatsapp}}"> <img
+        <li><a href="https://wa.me/{{ .Site.Data.homepage.social.whatsapp}}" target="_blank"> <img
                     class="contain" src="/logos/whatsapp.svg" alt="Whatsapp" loading="lazy"></a></li>
         {{ end }}
     </ul>
@@ -174,15 +174,22 @@
 {{ if .Site.Data.homepage.skill.enable }}
 
 {{ range .Site.Data.homepage.skill.item }}
-<div id="modal_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-        <div class="uk-modal-header">
-            <h2 class="uk-modal-title">{{.title}}</h2>
-        </div>
+<div class="modal fade" id="modal_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}" tabindex="-1" aria-labelledby="label_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="label_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}">{{.title}}</h1>
+        <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
         {{ $content := .description | safeHTML }}
         <p>{{ replace $content ">+" "<br>" | markdownify }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 {{ end }}
 
@@ -194,9 +201,8 @@
         <div class="uk-child-width-1-6@l uk-child-width-1-3@m uk-child-width-1-3@s uk-child-width-1-2 uk-text-center uk-flex-center"
             uk-grid>
             {{ range .Site.Data.homepage.skill.item }}
-            <div class="imagemargin">
-                <img class="contain skills" src="{{.logo}}" alt="{{.company}}" loading="lazy" style="cursor: pointer"
-                    uk-toggle="target: #modal_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}">
+            <div class="imagemargin" style="cursor: pointer" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#modal_{{cond (isset . "titlealt") .titlealt (replaceRE "\\W" "_" .title) }}">
+                <img class="contain skills" type="button" src="{{.logo}}" alt="{{.company}}" loading="lazy">
                 <h4>{{.title }}</h4>
             </div>
             {{ end }}
@@ -487,8 +493,5 @@
 {{ end }}
 
 {{ end }}
-
-{{ $zoom := resources.Get "js/medium-zoom-1.0.8.min.js" | minify }}
-<script src="{{ $zoom.Permalink | relURL}}"></script>
 
 {{ end }}
