@@ -13,27 +13,44 @@
       <div class="card card-border border-dark">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <picture style="display: inline-block;">
+            <figure class="figure large text-center view-box" view-image>
               {{ if .image }}
                 {{ $image_ext := (path.Ext .image) }}
                 {{ $is_jpg := eq $image_ext ".jpg" }}
                 {{ $is_png := eq $image_ext ".png" }}
                 {{ $ext := replace $image_ext "." "" 1 }}
-                {{ if or ($is_jpg) ($is_png) }}
-                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                  {{ if $is_jpg }}
-                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                  {{ end }}
-                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                {{ end }}
-                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+                
+                <a href="{{ .image | absURL }}">
+                  <picture style="display: inline-block;">
+                    {{ if or ($is_jpg) ($is_png) }}
+                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
+                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
+                      {{ if $is_jpg }}
+                        <source srcset="{{ $avif | absURL }}" type="image/avif" />
+                      {{ end }}
+                      <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                      <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
+                    {{ end }}
+                    <img class="figure-img img-fluid rounded shadow-4 mb-4" src="{{ .image | absURL }}" loading="lazy" decoding="async">
+                    {{ if .date }}
+                      <figcaption class="date">{{ .date }}</figcaption>
+                    {{ end }}
+                  </picture>
+                </a>
+              {{ else }}
+                <a href="/images/publications/no_img.jpg">
+                  <picture style="display: inline-block;">
+                    <source srcset="/images/publications/no_img.avif" type="image/avif" />
+                    <source srcset="/images/publications/no_img.webp" type="image/webp" />
+                    <source srcset="/images/publications/no_img.jpg" type="image/jpg" />
+                    <img class="figure-img img-fluid rounded shadow-4 mb-4" src="/images/publications/no_img.jpg" loading="lazy" decoding="async">
+                    {{ if .date }}
+                      <figcaption class="date">{{ .date }}</figcaption>
+                    {{ end }}
+                  </picture>
+                </a>
               {{ end }}
-              {{ if .date }}
-                <figcaption class="date">{{ .date }}</figcaption>
-              {{ end }}
-            </picture>
+            </figure>
           </div>
           <div class="col-sm-9">
             <div class="card-body">
