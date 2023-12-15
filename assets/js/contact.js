@@ -43,7 +43,6 @@ window.addEventListener('DOMContentLoaded', () => {
       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
       `   <h4 class="alert-heading">About auto save</h4>`,
       `   <div>${message}</div>`,
-      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
       '</div>'
     ].join('');
     

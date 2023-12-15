@@ -43,6 +43,6 @@
   <script src="https://www.google.com/recaptcha/api.js?render={{ $site_id }}"></script>
 {{ end }}
 
-{{ $contact := resources.Get "js/contact.js" | minify }}
-<script src="{{ $contact.Permalink | relURL}}" delay></script>
+{{ $contact := resources.Get "js/contact.js" | minify | fingerprint "sha256" }}
+<script src="{{ $contact.Permalink | relURL}}" integrity="{{ $contact.Data.Integrity }}" delay></script>
 {{ end }}

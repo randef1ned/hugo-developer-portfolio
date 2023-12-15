@@ -20,10 +20,10 @@
     </footer>
     {{ "<!-- JS Plugins -->" | safeHTML }}
     {{ range .Site.Params.plugins.js}}
-      <script src="{{ .URL | absURL }}"></script>
+      <script src="{{ .URL | absURL }}" delay></script>
     {{ end }}
-    {{ $render := resources.Get "js/render.js" | minify }}
-    <script src="{{ $render.Permalink | relURL}}" delay></script>
+    {{ $render := resources.Get "js/render.js" | minify | fingerprint "sha256" }}
+    <script src="{{ $render.Permalink | relURL}}" integrity="{{ $render.Data.Integrity }}" delay></script>
     {{ if .IsHome }}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.17.11/js/uikit-core.min.js" delay></script>
     {{ end }}
