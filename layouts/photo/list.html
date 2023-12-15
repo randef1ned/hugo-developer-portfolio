@@ -43,7 +43,7 @@
           </picture>
           <div class="carousel-caption d-none d-md-block">
             <h3 class="uk-margin-remove">{{ .date }}</h3>
-            <p class="uk-margin-remove">{{ .description }}</p>
+            <p class="uk-margin-remove">{{ .description | markdownify }}</p>
           </div>
         </div>
       {{ end }}
