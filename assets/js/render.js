@@ -1,4 +1,5 @@
 set_dark = function(isChecked) {
+  // if (localStorage.hasOwnProperty('dark'))
   const theme = isChecked ? "dark" : "light";
   localStorage.setItem('dark', isChecked);
   const text_color = ['text-black', 'text-white'];
@@ -23,8 +24,8 @@ set_dark = function(isChecked) {
 window.addEventListener('DOMContentLoaded', () => {
   // keep dark mode
   if (localStorage.getItem('dark') == 'true') {
-    document.getElementById('themingSwitcher').click();
     set_dark(true);
+    document.getElementById('themingSwitcher').click();
   }
   
   const themeStitcher = document.getElementById("themingSwitcher");

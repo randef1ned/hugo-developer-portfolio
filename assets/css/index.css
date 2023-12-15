@@ -109,8 +109,8 @@ img.experience{
 	box-shadow: 0 5px 15px rgba(0,0,0,.08);
 }
 
-a.unset{
-    all:unset
+a{
+    color: #07a;
 }
 
 img.schools{
@@ -124,4 +124,12 @@ img.publications{
 
 .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, .uk-heading-2xlarge, .uk-heading-3xlarge, .uk-heading-large, .uk-heading-medium, .uk-heading-small, .uk-heading-xlarge, h1, h2, h3, h4, h5, h6, li, .uk-text-lead {
   color: unset;
+}
+
+.home-link {
+  text-decoration: none !important;
+}
+.skill-description {
+  margin-top: 1em;
+  margin-bottom: 2.5em;
 }

@@ -11,45 +11,43 @@
     {{ range .Site.Data.publication.papers.item }}
     <div class="row p-2">
       <div class="card card-border border-dark">
+        <div class="d-flex align-items-center">
         <div class="row align-items-center">
           <div class="col-sm-3">
             <figure class="figure large text-center view-box" view-image>
-              {{ if .image }}
-                {{ $image_ext := (path.Ext .image) }}
-                {{ $is_jpg := eq $image_ext ".jpg" }}
-                {{ $is_png := eq $image_ext ".png" }}
-                {{ $ext := replace $image_ext "." "" 1 }}
-                
-                <a href="{{ .image | absURL }}">
-                  <picture style="display: inline-block;">
-                    {{ if or ($is_jpg) ($is_png) }}
-                      {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                      {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                      {{ if $is_jpg }}
-                        <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                      {{ end }}
-                      <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                      <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                    {{ end }}
-                    <img class="figure-img img-fluid rounded shadow-4 mb-4" src="{{ .image | absURL }}" loading="lazy" decoding="async">
-                    {{ if .date }}
-                      <figcaption class="date">{{ .date }}</figcaption>
-                    {{ end }}
-                  </picture>
-                </a>
+              {{ if .date }}
+                <figcaption class="date lh-1">
+                  {{ .date }}
+                </figcaption>
               {{ else }}
-                <a href="/images/publications/no_img.jpg">
-                  <picture style="display: inline-block;">
-                    <source srcset="/images/publications/no_img.avif" type="image/avif" />
-                    <source srcset="/images/publications/no_img.webp" type="image/webp" />
-                    <source srcset="/images/publications/no_img.jpg" type="image/jpg" />
-                    <img class="figure-img img-fluid rounded shadow-4 mb-4" src="/images/publications/no_img.jpg" loading="lazy" decoding="async">
-                    {{ if .date }}
-                      <figcaption class="date">{{ .date }}</figcaption>
-                    {{ end }}
-                  </picture>
-                </a>
+                <figcaption class="date-blank lh-1">
+                  <span><small>&nbsp;</small></span>
+                </figcaption>
               {{ end }}
+              
+              {{ $image := "/images/publications/no_img.jpg" }}
+              {{ if .image }}
+                {{ $image = .image }}
+              {{ end }}
+              {{ $image_ext := (path.Ext $image) }}
+              {{ $is_jpg := eq $image_ext ".jpg" }}
+              {{ $is_png := eq $image_ext ".png" }}
+              {{ $ext := replace $image_ext "." "" 1 }}
+              
+              <a href="{{ $image | absURL }}">
+                <picture style="display: inline-block;">
+                  {{ if or ($is_jpg) ($is_png) }}
+                    {{ $avif:= replace $image (path.Ext $image) ".avif" }}
+                    {{ $webp:= replace $image (path.Ext $image) ".webp" }}
+                    {{ if $is_jpg }}
+                      <source srcset="{{ $avif | absURL }}" type="image/avif" />
+                    {{ end }}
+                    <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                    <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}" />
+                  {{ end }}
+                  <img class="img-fluid rounded-5 shadow-5" src="{{ $image | absURL }}" loading="lazy" decoding="async">
+                </picture>
+              </a>
             </figure>
           </div>
           <div class="col-sm-9">
@@ -118,7 +116,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </div></div>
       </div>
       </div>
     {{ end }}
@@ -135,27 +133,41 @@
       <div class="card card-border border-dark">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <picture style="display: inline-block;">
-              {{ if .image }}
-                {{ $image_ext := (path.Ext .image) }}
-                {{ $is_jpg := eq $image_ext ".jpg" }}
-                {{ $is_png := eq $image_ext ".png" }}
-                {{ $ext := replace $image_ext "." "" 1 }}
-                {{ if or ($is_jpg) ($is_png) }}
-                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                  {{ if $is_jpg }}
-                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                  {{ end }}
-                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                {{ end }}
-                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
-              {{ end }}
+            <figure class="figure large text-center view-box" view-image>
               {{ if .date }}
-                <figcaption class="date">{{ .date }}</figcaption>
+                <figcaption class="date lh-1">
+                  {{ .date }}
+                </figcaption>
+              {{ else }}
+                <figcaption class="date-blank lh-1">
+                  <span><small>&nbsp;</small></span>
+                </figcaption>
               {{ end }}
-            </picture>
+              
+              {{ $image := "/images/publications/no_img.jpg" }}
+              {{ if .image }}
+                {{ $image = .image }}
+              {{ end }}
+              {{ $image_ext := (path.Ext $image) }}
+              {{ $is_jpg := eq $image_ext ".jpg" }}
+              {{ $is_png := eq $image_ext ".png" }}
+              {{ $ext := replace $image_ext "." "" 1 }}
+              
+              <a href="{{ $image | absURL }}">
+                <picture style="display: inline-block;">
+                  {{ if or ($is_jpg) ($is_png) }}
+                    {{ $avif:= replace $image (path.Ext $image) ".avif" }}
+                    {{ $webp:= replace $image (path.Ext $image) ".webp" }}
+                    {{ if $is_jpg }}
+                      <source srcset="{{ $avif | absURL }}" type="image/avif" />
+                    {{ end }}
+                    <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                    <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}" />
+                  {{ end }}
+                  <img class="img-fluid rounded-5 shadow-5" src="{{ $image | absURL }}" loading="lazy" decoding="async">
+                </picture>
+              </a>
+            </figure>
           </div>
           <div class="col-sm-9">
             <div class="card-body">
@@ -228,27 +240,42 @@
       <div class="card card-border border-dark">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <picture style="display: inline-block;">
-              {{ if .image }}
-                {{ $image_ext := (path.Ext .image) }}
-                {{ $is_jpg := eq $image_ext ".jpg" }}
-                {{ $is_png := eq $image_ext ".png" }}
-                {{ $ext := replace $image_ext "." "" 1 }}
-                {{ if or ($is_jpg) ($is_png) }}
-                  {{ $avif:= replace .image (path.Ext .image) ".avif" }}
-                  {{ $webp:= replace .image (path.Ext .image) ".webp" }}
-                  {{ if $is_jpg }}
-                    <source srcset="{{ $avif | absURL }}" type="image/avif" />
-                  {{ end }}
-                  <source srcset="{{ $webp | absURL }}" type="image/webp" />
-                  <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
-                {{ end }}
-                <img class="img-fluid rounded-start medium-zoom-image" src="{{ .image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
-              {{ end }}
+            <figure class="figure large text-center view-box" view-image>
               {{ if .date }}
-                <figcaption class="date">{{ .date }}</figcaption>
+                <figcaption class="date lh-1">
+                  {{ .date }}
+                </figcaption>
+              {{ else }}
+                <figcaption class="date-blank lh-1">
+                  <span><small>&nbsp;</small></span>
+                </figcaption>
               {{ end }}
-            </picture>
+              
+              {{ $image := "/images/publications/no_img.jpg" }}
+              {{ if .image }}
+                {{ $image = .image }}
+              {{ end }}
+              {{ $image_ext := (path.Ext $image) }}
+              {{ $is_jpg := eq $image_ext ".jpg" }}
+              {{ $is_png := eq $image_ext ".png" }}
+              {{ $ext := replace $image_ext "." "" 1 }}
+              
+              <a href="{{ $image | absURL }}">
+                <picture style="display: inline-block;">
+                  {{ if or ($is_jpg) ($is_png) }}
+                    {{ $avif:= replace $image (path.Ext $image) ".avif" }}
+                    {{ $webp:= replace $image (path.Ext $image) ".webp" }}
+                    {{ if $is_jpg }}
+                      <source srcset="{{ $avif | absURL }}" type="image/avif" />
+                    {{ end }}
+                    <source srcset="{{ $webp | absURL }}" type="image/webp" />
+                    <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}" />
+                  {{ end }}
+                  <img class="img-fluid rounded-5 shadow-5" src="{{ $image | absURL }}" loading="lazy" decoding="async">
+                </picture>
+              </a>
+              
+            </figure>
           </div>
           <div class="col-sm-9">
             <div class="card-body">

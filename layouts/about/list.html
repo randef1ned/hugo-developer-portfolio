@@ -20,7 +20,7 @@
             <source srcset="{{ $webp | absURL }}" type="image/webp">
             <source srcset="{{ $image | absURL }}" type="image/{{ $ext }}">
           {{ end }}
-          <img src="{{ $image | absURL }}" class="figure-img img-fluid rounded shadow-4 mb-4" loading="lazy" decoding="async">
+          <img src="{{ $image | absURL }}" class="figure-img img-fluid rounded-4 shadow-5 mb-4 dark-rev" loading="lazy" decoding="async">
         </picture>
       </a>
     </figure>

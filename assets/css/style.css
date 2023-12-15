@@ -63,10 +63,15 @@ figcaption {
 
 .date {
   font-size: 1.2em;
-  margin-top: 0.5em;
+  margin-top: 1em;
   font-style: normal;
+  margin-bottom: 0.375em;
 }
-
+.date-blank {
+  margin-top: 0em;
+  font-style: normal;
+  margin-bottom: 0em;
+}
 .dark-img {
   -webkit-filter: invert(1);
   filter: invert(1);
@@ -84,4 +89,12 @@ img.experience {
 picture, img {
   max-width: 100%;
   height: auto;
+}
+
+.copyright {
+  color: #999;
+  text-align: center !important;
+  font-weight: 300 !important;
+  font-style: italic;
+  margin-top: 0.5em;
 }

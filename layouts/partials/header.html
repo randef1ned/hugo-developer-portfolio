@@ -14,9 +14,9 @@
         <li class="nav-item">
           {{ $current_home := .IsHome}}
           {{ if $current_home }}
-            <a class="nav-link active" aria-current="page" href="{{.Site.BaseURL}}" style="text-decoration: none;">Home</a>
+            <a class="nav-link active home-link" aria-current="page" href="{{.Site.BaseURL}}">Home</a>
           {{ else }}
-            <a class="nav-link" aria-current="page" href="/">Home</a>
+            <a class="nav-link home-link" aria-current="page" href="/">Home</a>
           {{ end }}
         </li>
         {{ range .Site.Menus.main }}
@@ -28,17 +28,9 @@
           {{$aURL3 := index $aURL2 1}}
           {{$page3 := index $page2 1}}
           {{if eq $aURL3 $page3}}
-            {{ if $current_home }}
-              <a class="nav-link active" href="{{ .URL | relURL }}" style="text-decoration: none;">{{.Name}}</a>
-            {{ else }}
-              <a class="nav-link active" href="{{ .URL | relURL }}">{{.Name}}</a>
-            {{ end }}
+            <a class="nav-link active home-link" href="{{ .URL | relURL }}">{{.Name}}</a>
           {{else}}
-            {{ if $current_home }}
-              <a class="nav-link" href="{{ .URL | relURL }}" style="text-decoration: none;">{{.Name}}</a>
-            {{ else }}
-              <a class="nav-link" href="{{ .URL | relURL }}">{{.Name}}</a>
-            {{ end }}
+            <a class="nav-link home-link" href="{{ .URL | relURL }}">{{.Name}}</a>
           {{end}}
           </li>
         {{ end }}

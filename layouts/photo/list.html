@@ -39,7 +39,7 @@
               <source srcset="{{ $webp | absURL }}" type="image/webp" />
               <source srcset="{{ .image | absURL }}" type="image/{{ $ext }}" />
             {{ end }}
-            <img class="contain publications medium-zoom-image" src="{{ $element.image | absURL }}" id="zoom-margin" loading="lazy" decoding="async">
+            <img class="contain" src="{{ $element.image | absURL }}" loading="lazy" decoding="async">
           </picture>
           <div class="carousel-caption d-none d-md-block">
             <h3 class="uk-margin-remove">{{ .date }}</h3>
