@@ -1,11 +1,11 @@
-grecaptcha.ready(function () {
-  grecaptcha.execute('{{ $site_id }}', {action: 'submit'}).then(function (token) {
+function init_recaptcha(site_id) {
+  grecaptcha.execute(site_id, {action: 'submit'}).then(function (token) {
     document.getElementById('g-recaptcha-response').value = token;
     document.getElementById('submit').textContent = 'Submit';
     document.getElementById('submit').disabled = false;
     document.getElementById('message').disabled = false;
   });
-});
+};
 
 window.addEventListener('DOMContentLoaded', () => {
   var name_input = document.getElementById('name');
@@ -41,7 +41,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = [
       `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-      `   <h4 class="alert-heading">About auto save</h4>`,
+      '   <h4 class="alert-heading">About auto save</h4>',
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
       `   <div>${message}</div>`,
       '</div>'
     ].join('');

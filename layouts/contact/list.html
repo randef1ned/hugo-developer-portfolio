@@ -31,7 +31,7 @@
         
         <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
         
-        <button data-mdb-ripple-init type="button" id="submit" class="btn btn-primary btn-block mb-4" disabled>Wait until captcha loaded</button>
+        <button data-mdb-ripple-init type="button" id="submit" class="btn btn-primary btn-block mb-4" disabled>Wait until captcha loaded<br>Please refresh this page if the captcha does not load properly.</button>
       </form>
     </div>
   </div>
@@ -39,8 +39,13 @@
 
 {{ if .Site.Params.recaptcha.enabled }}
   {{ $site_id := .Site.Params.recaptcha.site_id }}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://www.google.com/recaptcha/api.js?render={{ $site_id }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" delay></script>
+  <script src="https://www.google.com/recaptcha/api.js?render={{ $site_id }}" delay></script>
+  <script delay>
+    setTimeout(() => {
+      init_recaptcha('{{ $site_id }}');
+    }, 3000);
+  </script>
 {{ end }}
 
 {{ $contact := resources.Get "js/contact.js" | minify | fingerprint "sha256" }}
